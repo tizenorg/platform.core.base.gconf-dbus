@@ -1,0 +1,7 @@
+gconf-dbus (2.16.0-slp1) unstable; urgency=low
+
+  * Initial Release.
+  * Git: pkgs/g/gconf-dbus
+  * Tag: gconf-dbus_2.16.0-slp1
+
+ -- Hyungdeuk Kim <hd3.kim@samsung.com>  Wed, 7 Dec 2011 14:48:05 +0900
