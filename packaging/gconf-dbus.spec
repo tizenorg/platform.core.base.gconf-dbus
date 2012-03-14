@@ -1,6 +1,6 @@
 Name:           gconf-dbus
 Version:        2.16.0
-Release:        1
+Release:        3.6
 License:        LGPLv2+
 Summary:        A process-transparent configuration system
 Url:            http://www.gnome.org
