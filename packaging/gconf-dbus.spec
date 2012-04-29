@@ -1,6 +1,6 @@
 Name:           gconf-dbus
-Version:        2.16.0
-Release:        3.6
+Version: 2.16.0
+Release:        1
 License:        LGPLv2+
 Summary:        A process-transparent configuration system
 Url:            http://www.gnome.org
@@ -16,7 +16,7 @@ BuildRequires:  pkgconfig(dbus-glib-1) >= 0.60
 BuildRequires:  pkgconfig(glib-2.0) > 2.8.0
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires: intltool
-Requires:       gconf-dbus = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release}
 Requires:       dbus
 
 %description
