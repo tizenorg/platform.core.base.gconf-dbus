@@ -51,7 +51,7 @@ development using GConf.
 
 
 %prep
-%setup -q -n GConf-dbus-%{version}
+%setup -q -n %{name}-%{version}
 %patch0 -p1
 %patch1 -p1
 
