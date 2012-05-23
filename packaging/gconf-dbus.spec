@@ -75,11 +75,13 @@ rm -rf %{buildroot}
 
 
 %files utils 
+%manifest gconf-dbus.manifest
 %{_bindir}/gconf-merge-tree
 %{_bindir}/gconftool-2
 
 
 %files  -f GConf2.lang
+%manifest gconf-dbus.manifest
 %doc COPYING
 %doc %{_datadir}/sgml/gconf/*
 %config(noreplace) %{_sysconfdir}/gconf/2/path
@@ -96,6 +98,7 @@ rm -rf %{buildroot}
 %{_sysconfdir}/dbus-1/system.d/gconfd.conf
 
 %files devel
+%manifest gconf-dbus.manifest
 %doc %{_datadir}/gtk-doc/html/gconf/*
 %doc %{_mandir}/man1/*
 %{_libdir}/*.so
