@@ -1,12 +1,12 @@
 Name:           gconf-dbus
-Version: 2.16.0
+Version:        2.16.0
 Release:        1
 License:        LGPLv2+
 Summary:        A process-transparent configuration system
 Url:            http://www.gnome.org
 Group:          System/Base
 Source:         ftp://ftp.gnome.org/pub/GNOME/mobile/2.23/2.23.92/sources/GConf-dbus-%{version}.tar.gz
-Source1001: packaging/gconf-dbus.manifest 
+Source1001:     gconf-dbus.manifest 
 Patch0:		01_removePopt.dpatch
 Patch1:		02_poweroff.dpatch
 BuildRequires:  autoconf
@@ -52,7 +52,7 @@ development using GConf.
 
 
 %prep
-%setup -q  -n GConf-dbus-%{version}
+%setup -q -n GConf-dbus-%{version}
 %patch0 -p1
 %patch1 -p1
 
@@ -68,9 +68,6 @@ rm -fr %{buildroot}
 
 %find_lang GConf2
 
-%clean
-rm -rf %{buildroot}
-
 %post -p  /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
@@ -78,13 +75,11 @@ rm -rf %{buildroot}
 
 %files utils 
 %manifest gconf-dbus.manifest
-%manifest gconf-dbus.manifest
 %{_bindir}/gconf-merge-tree
 %{_bindir}/gconftool-2
 
 
 %files  -f GConf2.lang
-%manifest gconf-dbus.manifest
 %manifest gconf-dbus.manifest
 %doc COPYING
 %doc %{_datadir}/sgml/gconf/*
@@ -102,7 +97,6 @@ rm -rf %{buildroot}
 %{_sysconfdir}/dbus-1/system.d/gconfd.conf
 
 %files devel
-%manifest gconf-dbus.manifest
 %manifest gconf-dbus.manifest
 %doc %{_datadir}/gtk-doc/html/gconf/*
 %doc %{_mandir}/man1/*
