@@ -1,3 +1,4 @@
+#sbs-git:slp/pkgs/g/gconf-dbus gconf-dbus 2.16.0 00a1761211cf288653a387587d6abc2bfc4d5626
 Name:           gconf-dbus
 Version: 2.16.0
 Release:        1
@@ -5,7 +6,7 @@ License:        LGPLv2+
 Summary:        A process-transparent configuration system
 Url:            http://www.gnome.org
 Group:          System/Base
-Source:         ftp://ftp.gnome.org/pub/GNOME/mobile/2.23/2.23.92/sources/GConf-dbus-%{version}.tar.gz
+Source:         ftp://ftp.gnome.org/pub/GNOME/mobile/2.23/2.23.92/sources/%{name}-%{version}.tar.gz
 Patch0:		01_removePopt.dpatch
 Patch1:		02_poweroff.dpatch
 BuildRequires:  autoconf
@@ -51,7 +52,7 @@ development using GConf.
 
 
 %prep
-%setup -q -n GConf-dbus-%{version}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 
