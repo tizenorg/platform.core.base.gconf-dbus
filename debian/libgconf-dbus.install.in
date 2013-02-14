@@ -1,0 +1,5 @@
+@PREFIX@/libexec/*
+@PREFIX@/lib/*.so.*
+@PREFIX@/lib/GConf-dbus/2/*.so
+@PREFIX@/etc/*
+@PREFIX@/share/dbus-1/*
