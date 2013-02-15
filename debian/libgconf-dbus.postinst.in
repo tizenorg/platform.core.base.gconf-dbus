@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ "${USER}" = "root" ]
+then
+   # Change file owner
+   chown root:root @PREFIX@/libexec/gconfd-2
+   chown -R root:root @PREFIX@/lib/GConf-dbus
+   chown root:root @PREFIX@/lib/libgconf-2.so.*
+   chown root:root @PREFIX@/share/dbus-1/services/gconf.service
+   chown -R root:root @PREFIX@/etc/gconf
+   chown root:root @PREFIX@/etc/dbus-1/system.d/gconfd.conf
+fi

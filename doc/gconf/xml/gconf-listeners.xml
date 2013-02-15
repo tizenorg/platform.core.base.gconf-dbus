@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="gconf-gconf-listeners">
+<refmeta>
+<refentrytitle role="top_of_page">gconf-listeners</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>GCONF Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>gconf-listeners</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+
+
+                    <link linkend="GConfListeners">GConfListeners</link>;
+<link linkend="void">void</link>                (<link linkend="GConfListenersCallback">*GConfListenersCallback</link>)           (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         const <link linkend="gchar">gchar</link> *all_above_key,
+                                                         <link linkend="guint">guint</link> cnxn_id,
+                                                         <link linkend="gpointer">gpointer</link> listener_data,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="GConfListeners">GConfListeners</link>*     <link linkend="gconf-listeners-new">gconf_listeners_new</link>                 (void);
+<link linkend="void">void</link>                <link linkend="gconf-listeners-free">gconf_listeners_free</link>                (<link linkend="GConfListeners">GConfListeners</link> *listeners);
+<link linkend="guint">guint</link>               <link linkend="gconf-listeners-add">gconf_listeners_add</link>                 (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         const <link linkend="gchar">gchar</link> *listen_point,
+                                                         <link linkend="gpointer">gpointer</link> listener_data,
+                                                         <link linkend="GFreeFunc">GFreeFunc</link> destroy_notify);
+<link linkend="void">void</link>                <link linkend="gconf-listeners-remove">gconf_listeners_remove</link>              (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="guint">guint</link> cnxn_id);
+<link linkend="void">void</link>                <link linkend="gconf-listeners-notify">gconf_listeners_notify</link>              (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         const <link linkend="gchar">gchar</link> *all_above,
+                                                         <link linkend="GConfListenersCallback">GConfListenersCallback</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="guint">guint</link>               <link linkend="gconf-listeners-count">gconf_listeners_count</link>               (<link linkend="GConfListeners">GConfListeners</link> *listeners);
+<link linkend="void">void</link>                <link linkend="gconf-listeners-foreach">gconf_listeners_foreach</link>             (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="GConfListenersForeach">GConfListenersForeach</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+<link linkend="gboolean">gboolean</link>            <link linkend="gconf-listeners-get-data">gconf_listeners_get_data</link>            (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="guint">guint</link> cnxn_id,
+                                                         <link linkend="gpointer">gpointer</link> *listener_data_p,
+                                                         const <link linkend="gchar">gchar</link> **location_p);
+<link linkend="void">void</link>                <link linkend="gconf-listeners-remove-if">gconf_listeners_remove_if</link>           (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="GConfListenersPredicate">GConfListenersPredicate</link> predicate,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 role="desc">
+<title role="desc.title">Description</title>
+<para>
+A GConfListeners object is used to store listeners who want notification of changes
+in a namespace section. It is a public API shared between gconfd and the GObject 
+convenience wrapper.
+</para>
+</refsect1>
+
+<refsect1 role="details">
+<title role="details.title">Details</title>
+<refsect2>
+<title><anchor id="GConfListeners" role="struct"/>GConfListeners</title>
+<indexterm><primary>GConfListeners</primary></indexterm><programlisting>typedef struct _GConfListeners GConfListeners;</programlisting>
+<para>
+The <link linkend="GConfListeners"><type>GConfListeners</type></link> structure contains nothing other than a dummy pointer. Internally 
+the data about listeners is maintained through a listener table structure,
+LTable which contains data like the namespace, an array to hold the listeners, count of
+active listeners,value to be given to the next connection and the list of connection indices
+to be recycled. There is also a Listener structure maintaining data pertaining to listeners. 
+</para></refsect2>
+<refsect2>
+<title><anchor id="GConfListenersCallback" role="function"/>GConfListenersCallback ()</title>
+<indexterm><primary>GConfListenersCallback</primary></indexterm><programlisting><link linkend="void">void</link>                (*GConfListenersCallback)           (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         const <link linkend="gchar">gchar</link> *all_above_key,
+                                                         <link linkend="guint">guint</link> cnxn_id,
+                                                         <link linkend="gpointer">gpointer</link> listener_data,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+This is the signature of a user function added with <link linkend="gconf-listeners-notify"><function>gconf_listeners_notify()</function></link>. This function
+is called whenever the value of a key changes. 
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>all_above_key</parameter>&nbsp;:</term>
+<listitem><simpara>the key that has changed.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>cnxn_id</parameter>&nbsp;:</term>
+<listitem><simpara>the connection id got from <link linkend="gconf-listeners-add"><function>gconf_listeners_add()</function></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>listener_data</parameter>&nbsp;:</term>
+<listitem><simpara>the data field associated with each listener.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>the user data to be passed to the callback.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-new" role="function"/>gconf_listeners_new ()</title>
+<indexterm><primary>gconf_listeners_new</primary></indexterm><programlisting><link linkend="GConfListeners">GConfListeners</link>*     gconf_listeners_new                 (void);</programlisting>
+<para>
+Creates a new listener table and typecasts it to a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>the newly allocated <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-free" role="function"/>gconf_listeners_free ()</title>
+<indexterm><primary>gconf_listeners_free</primary></indexterm><programlisting><link linkend="void">void</link>                gconf_listeners_free                (<link linkend="GConfListeners">GConfListeners</link> *listeners);</programlisting>
+<para>
+Destroys the listener table.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-add" role="function"/>gconf_listeners_add ()</title>
+<indexterm><primary>gconf_listeners_add</primary></indexterm><programlisting><link linkend="guint">guint</link>               gconf_listeners_add                 (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         const <link linkend="gchar">gchar</link> *listen_point,
+                                                         <link linkend="gpointer">gpointer</link> listener_data,
+                                                         <link linkend="GFreeFunc">GFreeFunc</link> destroy_notify);</programlisting>
+<para>
+Creates a new Listener with the next available connection id and inserts it into the listener table.
+The newly created listener listens for changes below and including the <parameter>listen_point.Returns</parameter> the newly 
+assigned connection id.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>listen_point</parameter>&nbsp;:</term>
+<listitem><simpara>where to listen for changes.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>listener_data</parameter>&nbsp;:</term>
+<listitem><simpara>data to pass to function.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>destroy_notify</parameter>&nbsp;:</term>
+<listitem><simpara>pointer to the function to be called when the listener is destroyed.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>the newly assigned connection id, a <link linkend="guint"><type>guint</type></link> value.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-remove" role="function"/>gconf_listeners_remove ()</title>
+<indexterm><primary>gconf_listeners_remove</primary></indexterm><programlisting><link linkend="void">void</link>                gconf_listeners_remove              (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="guint">guint</link> cnxn_id);</programlisting>
+<para>
+Removes the listener from the listener table.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>cnxn_id</parameter>&nbsp;:</term>
+<listitem><simpara>the connection id returned during <link linkend="gconf-listeners-add"><function>gconf_listeners_add()</function></link>.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-notify" role="function"/>gconf_listeners_notify ()</title>
+<indexterm><primary>gconf_listeners_notify</primary></indexterm><programlisting><link linkend="void">void</link>                gconf_listeners_notify              (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         const <link linkend="gchar">gchar</link> *all_above,
+                                                         <link linkend="GConfListenersCallback">GConfListenersCallback</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Notifies all the associated listeners that a key has changed.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>all_above</parameter>&nbsp;:</term>
+<listitem><simpara>the key that has changed.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListenersCallback"><type>GConfListenersCallback</type></link> to be called.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>data to be passed to the callback.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-count" role="function"/>gconf_listeners_count ()</title>
+<indexterm><primary>gconf_listeners_count</primary></indexterm><programlisting><link linkend="guint">guint</link>               gconf_listeners_count               (<link linkend="GConfListeners">GConfListeners</link> *listeners);</programlisting>
+<para>
+Returns the number of alive listeners in the listener table.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>the number of active listeners.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-foreach" role="function"/>gconf_listeners_foreach ()</title>
+<indexterm><primary>gconf_listeners_foreach</primary></indexterm><programlisting><link linkend="void">void</link>                gconf_listeners_foreach             (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="GConfListenersForeach">GConfListenersForeach</link> callback,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Execute a function for each of the <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>callback</parameter>&nbsp;:</term>
+<listitem><simpara>the function to be called.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>a gpointer.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-get-data" role="function"/>gconf_listeners_get_data ()</title>
+<indexterm><primary>gconf_listeners_get_data</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            gconf_listeners_get_data            (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="guint">guint</link> cnxn_id,
+                                                         <link linkend="gpointer">gpointer</link> *listener_data_p,
+                                                         const <link linkend="gchar">gchar</link> **location_p);</programlisting>
+<para>
+Obtains the data particular to a <link linkend="GConfListener"><type>GConfListener</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>cnxn_id</parameter>&nbsp;:</term>
+<listitem><simpara>the connection id, an integer.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>listener_data_p</parameter>&nbsp;:</term>
+<listitem><simpara>the address for getting the listener data.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>location_p</parameter>&nbsp;:</term>
+<listitem><simpara>a pointer to the address for getting the name.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara><symbol>TRUE</symbol> if the data could be obtained successfully, <symbol>FALSE</symbol> 
+if an error occurs while retrieving the data.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2>
+<title><anchor id="gconf-listeners-remove-if" role="function"/>gconf_listeners_remove_if ()</title>
+<indexterm><primary>gconf_listeners_remove_if</primary></indexterm><programlisting><link linkend="void">void</link>                gconf_listeners_remove_if           (<link linkend="GConfListeners">GConfListeners</link> *listeners,
+                                                         <link linkend="GConfListenersPredicate">GConfListenersPredicate</link> predicate,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Remove the listener if a predicate is satisfied.
+</para><variablelist role="params">
+<varlistentry><term><parameter>listeners</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="GConfListeners"><type>GConfListeners</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>predicate</parameter>&nbsp;:</term>
+<listitem><simpara>the predicate checked for removal.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&nbsp;:</term>
+<listitem><simpara>a <link linkend="gpointer"><type>gpointer</type></link>.
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+
+<refsect1><refsect2 /><refsect2 /></refsect1>
+</refentry>
