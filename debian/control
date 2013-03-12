@@ -1,0 +1,46 @@
+Source: gconf-dbus
+Section: devel
+Priority: extra
+Maintainer: Richard Hult  <richard@imendio.com>, Hakjoo ko <hakjoo.ko@samsung.com>
+Uploaders: Hyungdeuk Kim <hd3.kim@samsung.com>
+Build-Depends: debhelper (>= 5), autotools-dev, libglib2.0-dev, libdbus-glib-1-dev, libxml2-dev
+Standards-Version: 3.7.2
+
+Package: libgconf-dbus-dev
+Section: libdevel
+Architecture: any
+Depends: libgconf-dbus (= ${Source-Version}), gconf-dbus-utils (= ${Source-Version}), libdbus-glib-1-dev
+Description: GNOME configuration database system (development)
+ GConf is a configuration database system for storing application preferences.
+ It supports default or mandatory settings set by the administrator,
+ and changes to the database are instantly applied to all running applications.
+ It is written for the GNOME desktop but doesn't require it.
+
+Package: libgconf-dbus
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: GNOME configuration database system (shared libraries)
+ GConf is a configuration database system for storing application preferences.
+ It supports default or mandatory settings set by the administrator,
+ and changes to the database are instantly applied to all running applications.
+ It is written for the GNOME desktop but doesn't require it.
+
+Package: gconf-dbus-utils
+Architecture: any
+Depends: libgconf-dbus, ${shlibs:Depends}, ${misc:Depends}
+Description: GNOME configuration database system (support tools)
+ GConf is a configuration database system for storing application preferences.
+ It supports default or mandatory settings set by the administrator,
+ and changes to the database are instantly applied to all running applications.
+ It is written for the GNOME desktop but doesn't require it.
+
+Package: libgconf-dbus-dbg
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgconf-dbus (= ${Source-Version})
+Description: GNOME configuration database system (unstripped)
+ GConf is a configuration database system for storing application preferences.
+ It supports default or mandatory settings set by the administrator,
+ and changes to the database are instantly applied to all running applications.
+ It is written for the GNOME desktop but doesn't require it.

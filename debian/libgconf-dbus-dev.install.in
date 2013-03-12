@@ -1,0 +1,9 @@
+@PREFIX@/lib/*.so
+@PREFIX@/lib/lib*.la
+@PREFIX@/lib/lib*.a
+@PREFIX@/lib/pkgconfig/*
+@PREFIX@/lib/GConf-dbus/2/*.la
+@PREFIX@/lib/GConf-dbus/2/*.a
+@PREFIX@/include/*
+@PREFIX@/share/aclocal/*
+@PREFIX@/share/sgml/*
