@@ -7,6 +7,7 @@ Summary:        A process-transparent configuration system
 Url:            http://www.gnome.org
 Group:          System/Base
 Source:         ftp://ftp.gnome.org/pub/GNOME/mobile/2.23/2.23.92/sources/%{name}-%{version}.tar.gz
+Source1001: 	gconf-dbus.manifest
 Patch0:		01_removePopt.dpatch
 Patch1:		02_poweroff.dpatch
 BuildRequires:  autoconf
@@ -53,6 +54,7 @@ development using GConf.
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 %patch0 -p1
 %patch1 -p1
 
@@ -78,12 +80,14 @@ rm -rf %{buildroot}
 
 
 %files utils 
+%manifest %{name}.manifest
 %{_bindir}/gconf-merge-tree
 %{_bindir}/gconftool-2
 %manifest gconf-dbus.manifest
 
 
 %files  -f GConf2.lang
+%manifest %{name}.manifest
 %doc COPYING
 %doc %{_datadir}/sgml/gconf/*
 %config(noreplace) %{_sysconfdir}/gconf/2/path
@@ -102,6 +106,7 @@ rm -rf %{buildroot}
 /usr/share/license/%{name}
 
 %files devel
+%manifest %{name}.manifest
 %doc %{_datadir}/gtk-doc/html/gconf/*
 %doc %{_mandir}/man1/*
 %{_libdir}/*.so
