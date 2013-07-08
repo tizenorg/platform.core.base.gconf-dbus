@@ -1,0 +1,8 @@
+Change-Id: I522d714e728831cd05405ba2e1162b55d1c40d80
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Mon, 08 Jul 2013 09:38:05 -0700
+Reviewed-on: https://review.tizen.org/gerrit/5128
+Project: platform/core/base/gconf-dbus
+Branch: refs/heads/tizen
