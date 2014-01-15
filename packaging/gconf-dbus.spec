@@ -2,7 +2,7 @@
 Name:           gconf-dbus
 Version: 2.16.0
 Release:        2
-License:        LGPLv2+
+License:        LGPL-2.0+
 Summary:        A process-transparent configuration system
 Url:            http://www.gnome.org
 Group:          System/Base
@@ -66,9 +66,6 @@ make
 rm -fr %{buildroot}
 %make_install
 
-mkdir -p %{buildroot}/usr/share/license
-install COPYING %{buildroot}/usr/share/license/%{name}
-
 %find_lang GConf2
 
 %clean
@@ -84,7 +81,7 @@ rm -rf %{buildroot}
 %{_bindir}/gconf-merge-tree
 %{_bindir}/gconftool-2
 %manifest gconf-dbus.manifest
-
+%license COPYING
 
 %files  -f GConf2.lang
 %manifest %{name}.manifest
@@ -103,7 +100,7 @@ rm -rf %{buildroot}
 %{_datadir}/dbus-1/services/gconf.service
 %{_sysconfdir}/dbus-1/system.d/gconfd.conf
 %manifest gconf-dbus.manifest
-/usr/share/license/%{name}
+%license COPYING
 
 %files devel
 %manifest %{name}.manifest
@@ -113,4 +110,4 @@ rm -rf %{buildroot}
 %{_includedir}/gconf
 %{_datadir}/aclocal/*.m4
 %{_libdir}/pkgconfig/*
-
+%license COPYING
