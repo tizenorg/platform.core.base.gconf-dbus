@@ -1,0 +1,80 @@
+diff -urN gconf-dbus-orig/backends/markup-tree.c gconf-dbus/backends/markup-tree.c
+--- gconf-dbus-orig/backends/markup-tree.c	2016-04-27 10:29:47.072794273 +0900
++++ gconf-dbus/backends/markup-tree.c	2016-04-27 11:13:23.860894479 +0900
+@@ -3569,6 +3569,9 @@
+     }
+ }
+ 
++/*
++* parse_tree with recovery mechanism for journaling 
++*/
+ static void
+ parse_tree (MarkupDir   *root,
+             gboolean     parse_subtree,
+@@ -3578,7 +3581,8 @@
+   GMarkupParseContext *context = NULL;
+   GError *error;
+   ParseInfo info;
+-  char *filename;
++  char *filename, *newfilename;
++  char recovery_mode = 0;
+   FILE *f;
+ 
+   if (!parse_subtree)
+@@ -3590,6 +3594,7 @@
+ 
+   error = NULL;
+ 
++  recovery:
+   f = g_fopen (filename, "rb");
+   if (f == NULL)
+     {
+@@ -3605,6 +3610,24 @@
+       goto out;
+     }
+ 
++  if((!recovery_mode)&&(!fread(&recovery_mode, 1, 1, f)))
++  {
++      if (f != NULL)
++         fclose (f);
++      newfilename = g_strconcat (filename, ".new", NULL);
++#ifdef G_OS_WIN32
++      newfilename = g_strconcat (filename, ".tmp", NULL);
++#endif
++      g_free (filename);
++      filename = newfilename;
++      recovery_mode = 1;
++      goto recovery;
++  }
++    else
++  {
++      fseek(f, 0, SEEK_SET);
++  }   
++
+   context = g_markup_parse_context_new (&gconf_parser,
+                                         0, &info, NULL);
+ 
+@@ -4371,7 +4394,8 @@
+ #ifdef G_OS_WIN32
+   tmp_filename = g_strconcat (filename, ".tmp", NULL);
+ #endif
+-  new_fd = g_open (new_filename, O_WRONLY | O_CREAT, file_mode);
++  //Because ubi file system does not guarantee synchronization of data.
++  new_fd = g_open (new_filename, O_WRONLY | O_CREAT | O_SYNC, file_mode);
+   if (new_fd < 0)
+     {
+       err_str = g_strdup_printf (_("Failed to open \"%s\": %s\n"),
+diff -urN gconf-dbus-orig/gconf/default.path.in gconf-dbus/gconf/default.path.in
+--- gconf-dbus-orig/gconf/default.path.in	2016-04-27 10:29:47.068794273 +0900
++++ gconf-dbus/gconf/default.path.in	2016-04-27 11:14:15.188896444 +0900
+@@ -18,7 +18,8 @@
+ include "$(HOME)/.gconf.path"
+ 
+ # Give users a default storage location, ~/.gconf
+-xml:readwrite:$(HOME)/.gconf
++#xml:readwrite:$(HOME)/.gconf
++xml:readwrite:/opt/var/gconf
+ 
+ # To read in any defaults settings that the Sys Admin may have created
+ # prior to a desktop system upgrade. The SysAdmin can stick default values
+Binary files gconf-dbus-orig/.git/index and gconf-dbus/.git/index differ

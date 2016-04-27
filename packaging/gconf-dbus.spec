@@ -8,8 +8,8 @@ Url:            http://www.gnome.org
 Group:          System/Base
 Source:         ftp://ftp.gnome.org/pub/GNOME/mobile/2.23/2.23.92/sources/%{name}-%{version}.tar.gz
 Source1001: 	gconf-dbus.manifest
-Patch0:		01_removePopt.dpatch
-Patch1:		02_poweroff.dpatch
+Patch0:		01_removePopt.patch
+Patch1:		02_poweroff.patch
 BuildRequires:  autoconf
 BuildRequires:  automake
 BuildRequires:  libtool
